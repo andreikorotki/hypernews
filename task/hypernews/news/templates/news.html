@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>news page</title>
+</head>
+<body>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+<h2>Hyper news</h2>
+
+{% regroup all_news by created_date as news_by_date %}
+
+    {% for news_per_date in news_by_date %}
+
+    <h4>{{ news_per_date.grouper|date:"Y-m-d" }}</h4>
+
+            <ul>
+            {% for news_item in news_per_date.list %}
+                <li>
+                    <a href="{% url 'news' %}{{news_item.link}}/">{{news_item.title}}</a>
+                </li>
+            {% endfor %}
+            </ul>
+
+    {% endfor %}
+
+<a target="_blank" href="{% url 'news' %}create/">Create</a>
+</body>
+</html>
